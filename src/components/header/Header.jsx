@@ -12,7 +12,7 @@ export default function Header() {
 			</h1>
 
 			<Navbar textArr={['about', 'youtube', 'post']} />
-			<BtnLogin session={false} />
+			<BtnLogin session={true} />
 		</header>
 	);
 }
