@@ -13,11 +13,9 @@ export default function Header() {
 				<Link href='/'>DCODELAB</Link>
 			</h1>
 
-			<div>
-				<Navbar textArr={['about', 'youtube', 'post']} />
-				<BtnLogin session={true} />
-				<FaBarsStaggered size={20} color={'#333'} />
-			</div>
+			<Navbar textArr={['about', 'youtube', 'post']} />
+			<BtnLogin session={true} />
+			<FaBarsStaggered className={styles.btnMenu} size={20} color={'#333'} />
 		</header>
 	);
 }
