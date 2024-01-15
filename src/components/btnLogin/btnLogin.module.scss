@@ -7,27 +7,16 @@
 	padding: 0px 20px;
 	font-size: 0.7rem;
 	cursor: pointer;
-	transition: background 0.5s;
+	transition: background 0.5s, border-color 0.5s;
 
-	//.btn
-	//.btn:hover
-	&:hover {
-		background: var(--point);
-		color: var(--bg);
-		border: none;
-	}
-
-	//.btn.btnLogout
-	//.btn:hover (우선순위에 밀려서 적용안됨)
-	//.btn.btnLogout:hover (우선순위 높아서 적용됨)
 	&.btnLogout {
 		background: var(--text);
 		color: var(--bg);
-
-		&:hover {
-			background: var(--point);
-			color: var(--bg);
-			border: none;
-		}
 	}
+}
+//기존 공통 클래스에 hover문 연결 (우선순위문제 해결)
+.btn:hover {
+	background: var(--point);
+	color: var(--bg);
+	border-color: transparent;
 }
