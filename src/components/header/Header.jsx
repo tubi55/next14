@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Navbar from '../navbar/Navbar';
 
 export default function Header() {
+	console.log('header');
 	return (
 		<header className={clsx(styles.header)}>
 			<h1>
