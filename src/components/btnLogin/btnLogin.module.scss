@@ -9,12 +9,17 @@
 	cursor: pointer;
 	transition: background 0.5s;
 
+	//.btn
+	//.btn:hover
 	&:hover {
 		background: var(--point);
 		color: var(--bg);
 		border: none;
 	}
 
+	//.btn.btnLogout
+	//.btn:hover (우선순위에 밀려서 적용안됨)
+	//.btn.btnLogout:hover (우선순위 높아서 적용됨)
 	&.btnLogout {
 		background: var(--text);
 		color: var(--bg);
