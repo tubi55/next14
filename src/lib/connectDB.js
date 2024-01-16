@@ -5,6 +5,7 @@
   mongoose: MongoDB에 구조맞게 모델 객체 스키마생성및 모델 데이터 객체 제어 라이브러리
 */
 const mongoose = require('mongoose');
+//import mongoose from 'mongoose';
 let isConnected = false;
 
 export const connectDB = async () => {
