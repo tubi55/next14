@@ -7,7 +7,7 @@ export const getPosts = async id => {
 		connectDB();
 		let posts = null;
 		if (id) {
-			posts = await Post.findeById(id);
+			posts = await Post.findById(id);
 		} else {
 			posts = await Post.find();
 		}
