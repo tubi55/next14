@@ -4,14 +4,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCustomText } from '@/hooks/useText';
 
-export default function YoutubeCard({ data, isPriority }) {
+export default function YoutubeCard({ data, isPriority, isPrefetch }) {
 	const shortenText = useCustomText('shorten');
 	const customText = useCustomText('combined');
 	const [date, time] = data.snippet.publishedAt.split('T');
 	return (
 		<article className={clsx(styles.youtubeCard)}>
 			<div className={styles.pic}>
-				<Link href={`/detail/${data.id}`}>
+				<Link href={`/detail/${data.id}`} prefetch={isPrefetch}>
 					<Image
 						src={data.snippet.thumbnails.standard.url}
 						alt={data.snippet.title}
