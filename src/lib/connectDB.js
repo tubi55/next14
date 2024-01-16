@@ -13,8 +13,8 @@ export const connectDB = async () => {
 			console.log('already connected!');
 			return;
 		}
-		const db = await mongoose.connect(process.env.MONGO_URI);
-		isConnected = db.connection[0].readyState;
+		const db = await mongoose.connect(process.env.NEXT_PUBLIC_MONGO_URI);
+		isConnected = db.connections[0].readyState;
 	} catch (err) {
 		console.log(err);
 		throw new Error('Fail to connect DB!');
