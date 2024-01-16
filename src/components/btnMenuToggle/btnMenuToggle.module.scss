@@ -1,0 +1,9 @@
+.btnMenu {
+	display: none;
+}
+
+@media (max-width: $tablet) {
+	.btnMenu {
+		display: block;
+	}
+}
