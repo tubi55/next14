@@ -3,7 +3,7 @@ import styles from './youtube.module.scss';
 import YoutubeCard from '@/components/youtubeCard/YoutubeCard';
 
 async function fetchYoutube() {
-	const api_key = 'AIzaSyDC60bIIkAJFzy7ji4a0Eo3AX6tYudhe1w';
+	const api_key = process.env.NEXT_PUBLIC_YOUTUBE_API;
 	const pid = 'PLYOPkdUKSFgUJeKpDIbI0H1wwgQO-hCZF';
 	const num = 10;
 	const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
