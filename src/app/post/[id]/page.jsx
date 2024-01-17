@@ -6,6 +6,7 @@ import Image from 'next/image';
 export default async function PostDetail({ params }) {
 	const { id } = params;
 	const post = await getPosts(id);
+
 	return (
 		<section className={clsx(styles.postDetail)}>
 			<h1>PostDetail</h1>
@@ -15,6 +16,7 @@ export default async function PostDetail({ params }) {
 				<div className={clsx(styles.txt)}>
 					<h2>{post.title}</h2>
 					<p>{post.desc}</p>
+					<span>{post.createdAt}</span>
 				</div>
 			</article>
 		</section>
