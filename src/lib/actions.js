@@ -87,28 +87,8 @@ export const updatePost = async formData => {
 	redirect('/post');
 };
 
-//User 관련 actions
-export const addUser = async formData => {
-	const { username, email, img, password, repassword } = Object.fromEntries(formData);
-	if (password !== repassword) return;
-
-	const salt = await bcrypt.genSalt(10);
-	const hashedPassword = await bcrypt.hash(password, salt);
-
-	try {
-		connectDB();
-		const newUser = new User({ username, email, img, password: hashedPassword });
-		await newUser.save();
-		revalidatePath('/');
-		redirect('/');
-		return { success: true };
-	} catch (err) {
-		console.log(err);
-		throw new Error('Fail to save User Data!');
-	}
-};
-
-export const register = async (previousState, formData) => {
+//User 데이터 추가 서버액션 함수
+export const addUser = async (previousState, formData) => {
 	const { username, email, password, img, repassword } = Object.fromEntries(formData);
 
 	if (password !== repassword) {
@@ -144,6 +124,7 @@ export const register = async (previousState, formData) => {
 	}
 };
 
+//로그인 서버액션 함수
 export const handleLogin = async (prevState, formData) => {
 	console.log('handleLogin');
 	const { username, password } = Object.fromEntries(formData);
@@ -164,6 +145,7 @@ export const handleLogin = async (prevState, formData) => {
 	}
 };
 
+//로그아웃 서버액션 함수
 export const handleLogout = async () => {
 	'use server';
 	await signOut();
