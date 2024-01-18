@@ -1,11 +1,10 @@
 'use server';
-//해당 액션함수파일에서 서버컴포넌트뿐만 아닌 클라이언트 컴포넌트에서도 호출하는 함수가 있다면
-//함수안쪽에 각각 입력하는 것이 해당 파일 상단에 등록 (추천)
-//아니면 클라이언트 컴포넌트에서 호출하는 action함수를 다른 파일로 분리
+
 import { revalidatePath } from 'next/cache';
 import { connectDB } from './connectDB';
 import { Post, User } from './models';
 import { redirect } from 'next/navigation';
+import { signIn, signOut } from './auth';
 import bcrypt from 'bcryptjs';
 
 export const getPosts = async id => {
@@ -89,7 +88,6 @@ export const updatePost = async formData => {
 };
 
 //User 관련 actions
-//npm i bcriptjs
 export const addUser = async formData => {
 	const { username, email, img, password, repassword } = Object.fromEntries(formData);
 	if (password !== repassword) return;
@@ -101,11 +99,70 @@ export const addUser = async formData => {
 		connectDB();
 		const newUser = new User({ username, email, img, password: hashedPassword });
 		await newUser.save();
+		revalidatePath('/');
+		redirect('/');
+		return { success: true };
 	} catch (err) {
 		console.log(err);
 		throw new Error('Fail to save User Data!');
 	}
+};
 
-	revalidatePath('/');
-	redirect('/');
+export const register = async (previousState, formData) => {
+	const { username, email, password, img, repassword } = Object.fromEntries(formData);
+
+	if (password !== repassword) {
+		return { error: 'Passwords do not match' };
+	}
+
+	try {
+		connectDB();
+
+		const user = await User.findOne({ username });
+
+		if (user) {
+			return { error: 'Username already exists' };
+		}
+
+		const salt = await bcrypt.genSalt(10);
+		const hashedPassword = await bcrypt.hash(password, salt);
+
+		const newUser = new User({
+			username,
+			email,
+			password: hashedPassword,
+			img
+		});
+
+		await newUser.save();
+		console.log('saved to db');
+
+		return { success: true };
+	} catch (err) {
+		console.log(err);
+		return { error: 'Something went wrong!' };
+	}
+};
+
+export const handleLogin = async (prevState, formData) => {
+	console.log('handleLogin');
+	const { username, password } = Object.fromEntries(formData);
+	console.log('인증값', username, password);
+
+	try {
+		await signIn('credentials', { username, password });
+	} catch (err) {
+		console.log('인증에러');
+		console.log(err);
+
+		if (err.message.includes('CredentialsSignin')) {
+			return { error: 'Invalid username or password' };
+		}
+		throw err;
+	}
+};
+
+export const handleLogout = async () => {
+	'use server';
+	await signOut();
 };
