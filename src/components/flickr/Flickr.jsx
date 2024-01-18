@@ -43,10 +43,10 @@ export default function Flickr() {
 					<h1>Unsplash</h1>
 					<button onClick={() => setImgPanelOpen(false)}>close</button>
 
-					<div>
+					<form>
 						<input type='text' placeholder='serach' ref={inputEl} />
 						<button onClick={handleSearch}>Search</button>
-					</div>
+					</form>
 
 					<div>
 						{Pics.map((pic, idx) => {
