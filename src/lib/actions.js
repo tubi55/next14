@@ -1,6 +1,10 @@
+'use server';
+//해당 액션함수파일에서 서버컴포넌트뿐만 아닌 클라이언트 컴포넌트에서도 호출하는 함수가 있다면
+//함수안쪽에 각각 입력하는 것이 해당 파일 상단에 등록 (추천)
+//아니면 클라이언트 컴포넌트에서 호출하는 action함수를 다른 파일로 분리
 import { revalidatePath } from 'next/cache';
 import { connectDB } from './connectDB';
-import { Post } from './models';
+import { Post, User } from './models';
 import { redirect } from 'next/navigation';
 
 export const getPosts = async id => {
@@ -16,8 +20,6 @@ export const getPosts = async id => {
 	}
 };
 
-//인수로 받은 현재 페이지번호에 따라 다음의 정보를 반환하는 함수
-//{전체 데이터갯수, 출력될 포스트 배열, 현재페이지에 보일 데이터 갯수}
 export const getPostsPage = async page => {
 	const nums = 6;
 
@@ -26,8 +28,8 @@ export const getPostsPage = async page => {
 		const total = await Post.find().sort({ _id: -1 }).count();
 		const posts = await Post.find()
 			.sort({ _id: -1 })
-			.limit(nums) //nums갯수만큼 데이터 출력 제한
-			.skip(nums * (page - 1)); //현재 페이지 번호에 따라 출력한 데이터 시작순번 지정해서 스킵할 데이터수 지정
+			.limit(nums)
+			.skip(nums * (page - 1));
 		return { total, posts, nums };
 	} catch (err) {
 		console.log(err);
@@ -36,8 +38,6 @@ export const getPostsPage = async page => {
 };
 
 export const addPost = async formData => {
-	'use server';
-
 	const { title, img, desc } = Object.fromEntries(formData);
 
 	try {
@@ -54,8 +54,6 @@ export const addPost = async formData => {
 };
 
 export const deletePost = async formData => {
-	'use server';
-
 	try {
 		connectDB();
 		const data = Object.fromEntries(formData);
@@ -74,8 +72,6 @@ export const deletePost = async formData => {
 };
 
 export const updatePost = async formData => {
-	'use server';
-
 	const { id, title, img, desc } = Object.fromEntries(formData);
 	const updateObject = { title, img, desc };
 
@@ -89,4 +85,22 @@ export const updatePost = async formData => {
 
 	revalidatePath('/post');
 	redirect('/post');
+};
+
+//User 관련 actions
+export const addUser = async formData => {
+	const { username, email, password, repassword } = Object.fromEntries(formData);
+	if (password !== repassword) return;
+
+	try {
+		connectDB();
+		const newUser = new User({ username, email, password });
+		await newUser.save();
+	} catch (err) {
+		console.log(err);
+		throw new Error('Fail to save User Data!');
+	}
+
+	revalidatePath('/');
+	redirect('/');
 };
