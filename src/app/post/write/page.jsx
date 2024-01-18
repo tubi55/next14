@@ -1,8 +1,7 @@
 import clsx from 'clsx';
 import styles from './write.module.scss';
 import { addPost } from '@/lib/actions';
-import Unsplash from '@/components/unsplash/Unsplash';
-import BtnUnsplash from '@/components/btnUnsplash/BtnUnsplash';
+import InputImage from '@/components/inputImage/InputImage';
 
 export default function Write() {
 	return (
@@ -12,9 +11,8 @@ export default function Write() {
 
 				<form action={addPost}>
 					<input type='text' placeholder='title' name='title' />
-					<input type='text' placeholder='image URL' name='img' />
+					<InputImage />
 					<textarea name='desc' cols='30' rows='3' placeholder='description'></textarea>
-					<BtnUnsplash />
 
 					<nav>
 						<input type='reset' value='cancel' />
@@ -22,7 +20,6 @@ export default function Write() {
 					</nav>
 				</form>
 			</section>
-			<Unsplash />
 		</>
 	);
 }
