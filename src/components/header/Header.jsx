@@ -14,7 +14,7 @@ export default function Header() {
 			</h1>
 
 			<Navbar textArr={['about', 'youtube', 'post', 'join']} />
-			<BtnLogin session={true} />
+			<BtnLogin session={false} />
 			<BtnMenuToggle />
 		</header>
 	);
