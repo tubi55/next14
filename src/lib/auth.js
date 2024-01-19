@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import Github from 'next-auth/providers/github';
+import Google from 'next-auth/providers/google';
 
 import { connectDB } from './connectDB';
 import { User } from './models';
@@ -49,6 +50,11 @@ export const {
 		Github({
 			clientId: process.env.GITHUB_ID,
 			clientSecret: process.env.GITHUB_SECRET
+		}),
+		//google 인증 Provider설정
+		Google({
+			clientId: process.env.GOOGLE_CLIENT_ID || '',
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET || ''
 		})
 	],
 	//인증이 성공완료된 자동 실행될 callback함수(외부 autoConfig에서 가져옴)
@@ -72,6 +78,9 @@ export const {
 					console.log(err);
 					return false;
 				}
+			}
+			if (account.provider === 'google') {
+				console.log('google', account);
 			}
 			return true;
 		},
