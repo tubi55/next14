@@ -43,6 +43,11 @@ export const {
 					return null;
 				}
 			}
+		}),
+		//github 인증 Provider설정
+		Github({
+			clientId: process.env.GITHUB_ID,
+			clientSecret: process.env.GITHUB_SECRET
 		})
 	],
 	//인증이 성공완료된 자동 실행될 callback함수(외부 autoConfig에서 가져옴)
