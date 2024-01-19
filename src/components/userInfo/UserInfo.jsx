@@ -4,7 +4,6 @@ import { getUser } from '@/lib/actions';
 import Image from 'next/image';
 
 export default async function UserInfo({ email }) {
-	//console.log('UserInfo', email);
 	const user = await getUser(email);
 	return (
 		<article className={clsx(styles.userInfo)}>

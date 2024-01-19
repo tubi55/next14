@@ -37,11 +37,8 @@ export const getPostsPage = async page => {
 };
 
 export const addPost = async formData => {
-	//const  = Object.fromEntries(formData);
 	const result = Object.fromEntries(formData);
-	console.log('result', result);
 	const { title, img, desc, email } = result;
-	console.log('email', email);
 
 	try {
 		connectDB();
@@ -92,7 +89,6 @@ export const updatePost = async formData => {
 };
 
 export const getUser = async email => {
-	//console.log('getUserParam', email);
 	try {
 		connectDB();
 		const user = await User.findOne({ email: email });
