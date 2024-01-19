@@ -12,7 +12,6 @@ export const getPosts = async id => {
 		connectDB();
 		let posts = null;
 		if (id) posts = await Post.findById(id);
-		else posts = await Post.find().sort({ _id: -1 });
 		return posts;
 	} catch (err) {
 		console.log(err);
@@ -38,12 +37,16 @@ export const getPostsPage = async page => {
 };
 
 export const addPost = async formData => {
-	const { title, img, desc, username } = Object.fromEntries(formData);
+	//const  = Object.fromEntries(formData);
+	const result = Object.fromEntries(formData);
+	console.log('result', result);
+	const { title, img, desc, email } = result;
+	console.log('email', email);
 
 	try {
 		connectDB();
-		const newPost = new Post({ title, img, desc, username });
-		console.log('addPost', newPost);
+		const newPost = new Post({ title, img, desc, email: email });
+		console.log('newPost', newPost);
 		await newPost.save();
 	} catch (err) {
 		console.log(err);
@@ -88,10 +91,12 @@ export const updatePost = async formData => {
 	redirect('/post');
 };
 
-export const getUser = async username => {
+export const getUser = async email => {
+	//console.log('getUserParam', email);
 	try {
 		connectDB();
-		const user = await User.findOne({ username: username });
+		const user = await User.findOne({ email: email });
+
 		return user;
 	} catch (err) {
 		console.log(err);

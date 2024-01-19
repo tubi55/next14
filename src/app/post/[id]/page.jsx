@@ -21,10 +21,9 @@ export default async function PostDetail({ params }) {
 					<p>{post.desc}</p>
 					{post && (
 						<Suspense fallback={<p>Loading...</p>}>
-							<UserInfo username={post.username} />
+							<UserInfo email={post.email} />
 						</Suspense>
 					)}
-					<UserInfo username={post.username} />
 					<nav>
 						<Link href={`/post/edit/${id}`}>Edit</Link>
 						<form action={deletePost}>
