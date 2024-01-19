@@ -87,22 +87,17 @@ export const updatePost = async formData => {
 	redirect('/post');
 };
 
-//User 데이터 추가 서버액션 함수
 export const addUser = async (previousState, formData) => {
 	const { username, email, password, img, repassword } = Object.fromEntries(formData);
 
-	if (password !== repassword) {
-		return { error: 'Passwords do not match' };
-	}
+	if (password !== repassword) return { error: 'Passwords do not match' };
 
 	try {
 		connectDB();
 
 		const user = await User.findOne({ username });
 
-		if (user) {
-			return { error: 'Username already exists' };
-		}
+		if (user) return { error: 'Username already exists' };
 
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(password, salt);
@@ -124,7 +119,6 @@ export const addUser = async (previousState, formData) => {
 	}
 };
 
-//로그인 서버액션 함수
 export const handleLogin = async (prevState, formData) => {
 	console.log('handleLogin');
 	const { username, password } = Object.fromEntries(formData);
@@ -145,17 +139,14 @@ export const handleLogin = async (prevState, formData) => {
 	}
 };
 
-//깃허브 로그인 서버액션 함수
 export const handleGitHubLogin = async () => {
 	await signIn('github');
 };
 
-//구글 로그인 서버액션 함수
 export const handleGoogleLogin = async () => {
 	await signIn('google');
 };
 
-//로그아웃 서버액션 함수
 export const handleLogout = async () => {
 	'use server';
 	await signOut();
